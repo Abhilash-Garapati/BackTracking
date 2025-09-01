@@ -1,0 +1,48 @@
+class Solution 
+{
+    // Function to find all possible paths
+    public ArrayList<String> ratInMaze(int[][] maze) 
+    {
+        // code here
+        int n = maze.length;
+        ArrayList<String> res = new ArrayList<>();
+        if(maze[0][0]==0 || maze[n-1][n-1]==0)
+        {
+            return res;
+        }
+        boolean vis[][] = new boolean[n][n];
+        String path ="";
+        backtrack(maze,n,0,0,path,vis,res);
+        return res;
+    }
+    public void backtrack(int maze[][],int n, int i,int j,String path,boolean [][] vis,ArrayList<String> res)
+    {
+        if(i==n-1 && j==n-1)
+        {
+            res.add(path);
+            return;
+        }
+        vis[i][j]=true;
+        if(isSafe(maze,n,i+1,j,vis))
+        {
+            backtrack(maze,n,i+1,j,path+"D",vis,res);
+        }
+        if(isSafe(maze,n,i,j-1,vis))
+        {
+            backtrack(maze,n,i,j-1,path+"L",vis,res);
+        }
+        if(isSafe(maze,n,i,j+1,vis))
+        {
+            backtrack(maze,n,i,j+1,path+"R",vis,res);
+        }
+        if(isSafe(maze,n,i-1,j,vis))
+        {
+            backtrack(maze,n,i-1,j,path+"U",vis,res);
+        }
+        vis[i][j]=false;
+    }
+    public boolean isSafe(int [][]maze,int n,int i,int j, boolean vis[][])
+    {
+        return (i>=0 && j>=0 &&i<n && j<n&& maze[i][j]==1&&vis[i][j]==false);
+    }
+}
