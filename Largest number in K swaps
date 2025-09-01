@@ -1,0 +1,54 @@
+class Solution 
+{
+    // Function to find the largest number after k swaps.
+    String maxNum;
+    public void findMaximum(char[] ch,int k,int idx)
+    {
+        if(k==0 || idx==ch.length)
+        {
+            return;
+        }
+        int n = ch.length;
+        char maxDigit = ch[idx];
+        for(int i = idx+1;i<n;i++)
+        {
+            if(ch[i]>maxDigit)
+            {
+                maxDigit = ch[i];
+            }
+        }
+        if(maxDigit != ch[idx])
+        {
+            for(int i = n-1;i>idx;i--)
+            {
+                if(ch[i]==maxDigit)
+                {
+                    char temp = ch[i];
+                    ch[i] = ch[idx];
+                    ch[idx] = temp;
+                    
+                    String newNum = new String(ch);
+                    if(maxNum.compareTo(newNum)<0)
+                    {
+                        maxNum = newNum;
+                    }
+                    findMaximum(ch,k-1,idx+1);
+                    temp = ch[i];
+                    ch[i] = ch[idx];
+                    ch[idx] = temp;
+                }
+            }
+        }
+        else
+        {
+            findMaximum(ch,k,idx+1);
+        }
+    }
+    public String findMaximumNum(String s, int k) 
+    {
+        // code here.
+        maxNum = s;
+        findMaximum(s.toCharArray(),k,0);
+        return maxNum;
+    }
+}
