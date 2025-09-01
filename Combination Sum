@@ -1,0 +1,30 @@
+class Solution 
+{
+    // Function to find all combinations of elements
+    // in array arr that sum to target.
+    static ArrayList<ArrayList<Integer>> combinationSum(int[] arr, int target) 
+    {
+        // add your code here
+        ArrayList <ArrayList<Integer>> res = new ArrayList<>();
+        backtrack(res,new ArrayList<>(),target,0,arr);
+        return res;
+    }
+    static void backtrack(ArrayList<ArrayList<Integer>> res,ArrayList<Integer> current,int target,int idx,int []arr )
+    {
+        if(target==0)
+        {
+            res.add(new ArrayList<>(current));
+            return;
+        }
+        if(target<0)
+        {
+            return;
+        }
+        for(int i = idx;i<arr.length;i++)
+        {
+            current.add(arr[i]);
+            backtrack(res,current,target-arr[i],i,arr);
+            current.remove(current.size()-1);
+        }
+    }
+}
