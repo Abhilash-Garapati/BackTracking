@@ -1,0 +1,50 @@
+class Solution 
+{
+    boolean graphColoring(int v, int[][] edges, int m) 
+    {
+        // code here
+        int [] color = new int[v];
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0;i<v;i++)
+        {
+            adj.add(new ArrayList<>());
+        }
+        for(int i = 0;i<edges.length;i++)
+        {
+            adj.get(edges[i][0]).add(edges[i][1]);
+            adj.get(edges[i][1]).add(edges[i][0]);
+        }
+        return solve(0,adj,v,m,color);
+    }
+    public boolean solve(int node, ArrayList<ArrayList<Integer>> adj, int v, int m,int [] color)
+    {
+        if(node==v)
+        {
+            return true;
+        }
+        for(int c = 1;c<=m;c++)
+        {
+            if(isSafe(node,adj,c,color))
+            {
+                color[node] = c;
+                if(solve(node+1,adj,v,m,color))
+                {
+                    return true;
+                }
+                color[node] = 0;
+            }
+        }
+        return false;
+    }
+    public boolean isSafe(int node, ArrayList<ArrayList<Integer>> adj,int c,int color [])
+    {
+        for(Integer neigh : adj.get(node))
+        {
+            if(color[neigh]==c)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}
