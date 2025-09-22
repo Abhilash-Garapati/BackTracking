@@ -1,0 +1,38 @@
+class Solution 
+{
+    public static void dfs(int [][] mat, int m,int n,int xs,int ys,int xd,int yd,boolean vis[][],int steps,int [] maxSteps)
+    {
+        int delrow [] = {1,0,-1,0};
+        int delcol [] = {0,-1,0,1};
+        if(xs==xd && ys==yd && (maxSteps[0]<steps))
+        {
+            maxSteps[0]=steps;
+            return;
+        }
+        for(int i = 0;i<4;i++)
+        {
+            int nrow = xs+delrow[i];
+            int ncol = ys + delcol[i];
+            if(nrow>=0 && ncol>=0 && nrow<m && ncol<n && vis[nrow][ncol] == false && mat[nrow][ncol]==1)
+            {
+                vis[nrow][ncol] = true;
+                dfs(mat,m,n,nrow,ncol,xd,yd,vis,steps+1,maxSteps);
+                vis[nrow][ncol] = false;
+            }
+        }
+    }
+    public static int longestPath(int[][] mat, int m, int n, int xs, int ys, int xd,int yd) 
+    {
+        // code here
+        if(mat[xs][ys]==0)
+        {
+            return -1;
+        }
+        boolean vis[][] = new boolean[m][n];
+        vis[xs][ys]=true;
+        int steps = 0;
+        int [] maxSteps = {-1};
+        dfs(mat,m,n,xs,ys,xd,yd,vis,steps,maxSteps);
+        return maxSteps[0];
+    }
+}
